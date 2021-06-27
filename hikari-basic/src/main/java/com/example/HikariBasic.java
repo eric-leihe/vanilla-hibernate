@@ -1,5 +1,8 @@
+package com.example;
+
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -7,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@Slf4j
 public class HikariBasic {
 
     public static void main(String[] args) {
@@ -21,7 +25,7 @@ public class HikariBasic {
         DataSource ds = new HikariDataSource(config);
 
         try(Connection conn = ds.getConnection()) {
-            print(conn.getCatalog(), conn.getAutoCommit() ? "AUTOCOMMIT=TRUE" : "");
+            log.info("{}, {}", conn.getCatalog(), conn.getAutoCommit() ? "AUTOCOMMIT=TRUE" : "");
             conn.createStatement().execute(conn.nativeSQL("CREATE TABLE TEST(ID INT PRIMARY KEY, NAME VARCHAR);"));
             conn.createStatement().execute(conn.nativeSQL("INSERT INTO TEST VALUES(1, 'Hello World');\n"));
         } catch (SQLException e) {
@@ -33,15 +37,10 @@ public class HikariBasic {
             stmt.setInt(1, 1);
             ResultSet rs = stmt.executeQuery();
             while(rs.next()) {
-                print(rs.getString("NAME"));
+                log.info(rs.getString("NAME"));
             }
         }catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-
-    static void print(String... msgs) {
-        System.out.println(String.join("\n", msgs));
     }
 }

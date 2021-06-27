@@ -1,23 +1,17 @@
-
 plugins {
-    id 'java'
-    id 'io.freefair.lombok' version "6.0.0-m2"
+    id 'application'
 }
 
-allprojects {
-    group 'org.example'
-    version '1.0-SNAPSHOT'
+mainClassName = 'com.example.HikariHibernate'
 
-    repositories {
-        mavenCentral()
-    }
+repositories {
+    mavenCentral()
 }
-
 
 dependencies {
+    implementation project(":commons")
     implementation group: 'org.hibernate', name: 'hibernate-gradle-plugin', version: '5.5.2.Final'
     implementation group: 'org.hibernate', name: 'hibernate-hikaricp', version: '5.5.2.Final'
-    implementation "com.zaxxer:HikariCP:4.0.3"
     compileOnly 'org.projectlombok:lombok:1.18.20'
     annotationProcessor 'org.projectlombok:lombok:1.18.20'
 
@@ -29,3 +23,6 @@ dependencies {
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
 }
 
+test {
+    useJUnitPlatform()
+}
