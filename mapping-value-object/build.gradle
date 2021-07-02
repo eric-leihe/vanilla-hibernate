@@ -4,6 +4,11 @@ plugins {
 
 mainClassName = 'com.example.MappingValueObjects'
 
+application {
+    // Enable java assert
+    applicationDefaultJvmArgs = ['-ea']
+}
+
 repositories {
     mavenCentral()
 }
